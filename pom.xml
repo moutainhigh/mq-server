@@ -18,19 +18,12 @@
     </organization>
 
     <modules>
-        <module>mq-server-client</module>
+        <module>mq-client</module>
         <module>mq-server-core</module>
         <module>mq-server-dal</module>
         <module>mq-server-web</module>
     </modules>
 
-    <developers>
-        <developer>
-            <name>zhangyan</name>
-            <organization>${project.organization.name}</organization>
-            <organizationUrl>${project.organization.url}</organizationUrl>
-        </developer>
-    </developers>
 
     <properties>
         <start-class>com.shinemo.mq-server.web.application.Application</start-class>
@@ -53,8 +46,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.shinemo.mq-server</groupId>
-                <artifactId>mq-server-client</artifactId>
+                <groupId>com.shinemo.mq</groupId>
+                <artifactId>mq-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
