@@ -2,6 +2,7 @@ package com.shinemo.mq.client.mq.service.impl;
 
 import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListener;
+import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
 import com.shinemo.mq.client.common.utils.AssertUtil;
 import com.shinemo.mq.client.mq.service.MqConsumerService;
@@ -43,7 +44,7 @@ public class MqConsumerServiceImpl implements MqConsumerService{
     /**
      * 消息监听器
      */
-    private MessageListener messageListener;
+    private MessageListenerConcurrently messageListener;
     /**
      * 消费者
      */
@@ -61,6 +62,19 @@ public class MqConsumerServiceImpl implements MqConsumerService{
             mqPushConsumer.setInstanceName(instanceName);
         }
         mqPushConsumer.setMessageModel(MessageModel.CLUSTERING);
+        try {
+            for (Map.Entry<String, Set<String>> entry : topicAndSetTags.entrySet()) {
+                //String tagsString = Joiner.on(STR).join(entry.getValue());
+                //mqPushConsumer.subscribe(entry.getKey(), tagsString);
+            }
+            mqPushConsumer.registerMessageListener(messageListener);
+            mqPushConsumer.start();
+            log.info("[startComsumer] consumerGroupName:{} nameSrvAddr:{} topicMap:{}",consumerGroupName,
+                    nameSrvAddr,topicAndSetTags);
+        } catch (Exception e) {
+            log.error("consumer start exception:"+consumerGroupName+","+nameSrvAddr+","+instanceName,e);
+        }
+
     }
 
     @Override
