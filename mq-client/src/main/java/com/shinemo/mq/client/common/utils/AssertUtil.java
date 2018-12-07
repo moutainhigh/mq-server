@@ -30,4 +30,15 @@ public class AssertUtil {
             throw new IllegalArgumentException(message);
         }
     }
+
+    /**
+     * 对象不为空 如果为空抛出异常
+     * @param object
+     * @param message
+     */
+    public static void notNullObject(Object object, String message) {
+        if (object == null ) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }
