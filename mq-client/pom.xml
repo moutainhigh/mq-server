@@ -10,7 +10,6 @@
 
     <groupId>com.shinemo.mq</groupId>
     <artifactId>mq-client</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <name>mq-server-client</name>
 
 
@@ -47,6 +46,11 @@
         <dependency>
             <groupId>com.alibaba.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 

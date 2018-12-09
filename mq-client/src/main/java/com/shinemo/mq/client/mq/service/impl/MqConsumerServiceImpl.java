@@ -3,7 +3,9 @@ package com.shinemo.mq.client.mq.service.impl;
 import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListener;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import com.alibaba.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
+import com.google.common.base.Joiner;
 import com.shinemo.mq.client.common.utils.AssertUtil;
 import com.shinemo.mq.client.mq.service.MqConsumerService;
 import lombok.Getter;
@@ -42,16 +44,18 @@ public class MqConsumerServiceImpl implements MqConsumerService{
      */
     private Map<String, Set<String>> topicAndSetTags;
     /**
-     * 消息监听器
+     * 消息监听器 MessageListenerConcurrently是无序的效率更高  
+     * MessageListenerOrderly是有序的能保证按顺序消费
      */
-    private MessageListenerConcurrently messageListener;
+    private MessageListener messageListener;
     /**
      * 消费者
      */
     private DefaultMQPushConsumer mqPushConsumer;
 
 
-    @Override
+   
+	@Override
     public void init() {
         AssertUtil.notNullObject(messageListener,"messageListener is null");
         AssertUtil.notNullString(nameSrvAddr,"nameSrvAddr is null");
@@ -64,10 +68,15 @@ public class MqConsumerServiceImpl implements MqConsumerService{
         mqPushConsumer.setMessageModel(MessageModel.CLUSTERING);
         try {
             for (Map.Entry<String, Set<String>> entry : topicAndSetTags.entrySet()) {
-                //String tagsString = Joiner.on(STR).join(entry.getValue());
-                //mqPushConsumer.subscribe(entry.getKey(), tagsString);
+                String tagsString = Joiner.on(STR).join(entry.getValue());
+                mqPushConsumer.subscribe(entry.getKey(), tagsString);
             }
-            mqPushConsumer.registerMessageListener(messageListener);
+            if(messageListener.getClass().isInstance(MessageListenerConcurrently.class)) {
+            	mqPushConsumer.registerMessageListener((MessageListenerConcurrently)messageListener);
+            }else {
+            	mqPushConsumer.registerMessageListener((MessageListenerOrderly)messageListener);
+            }
+            
             mqPushConsumer.start();
             log.info("[startComsumer] consumerGroupName:{} nameSrvAddr:{} topicMap:{}",consumerGroupName,
                     nameSrvAddr,topicAndSetTags);
