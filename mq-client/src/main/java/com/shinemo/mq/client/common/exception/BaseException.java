@@ -1,6 +1,6 @@
 package com.shinemo.mq.client.common.exception;
 
-import com.shinemo.mq.client.common.error.ErrorWrapper;;
+import com.shinemo.mq.client.common.error.ErrorWrapper;
 
 import lombok.Getter;
 
