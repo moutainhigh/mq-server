@@ -4,21 +4,19 @@ import java.util.List;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import com.alibaba.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import com.alibaba.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.shinemo.mq.client.mq.service.MqMessageConsumerService;
 
-
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-@Getter
-@Setter
-public class MqMessageListenerConcurrently implements MessageListenerConcurrently{
+public class MqMessageListenerOrderly implements MessageListenerOrderly{
+	
 	
 	
 	/**
@@ -48,26 +46,23 @@ public class MqMessageListenerConcurrently implements MessageListenerConcurrentl
 	
 	//数据库操作 rpc类
 
+
 	@Override
-	public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,ConsumeConcurrentlyContext context) {
+	public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext context) {
 		log.info(Thread.currentThread().getName() + " Receive New Messages: " + msgs.size());
 		for(MessageExt msg:msgs){
-			
 			if(checkExpire) {
 				//判断过期 加log
 				continue;
 			}
-			
 			if(checkRepeatMessage){
-				
 				//先查询是否被消费 无则插入 有则直接返回
-				
 			}else{
 				log.info("message receive:"+msg.getMsgId());
 				mqMessageConsumerService.handleMessage(msg);
 			}
 		}
-		return  ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+		return ConsumeOrderlyStatus.SUCCESS;
 	}
 	
 	/**
@@ -76,5 +71,7 @@ public class MqMessageListenerConcurrently implements MessageListenerConcurrentl
 	public void init() {
 		
 	}
+
+	
 
 }
