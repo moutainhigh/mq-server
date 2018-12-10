@@ -6,6 +6,7 @@ import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
 import com.shinemo.mq.client.common.utils.AssertUtil;
+import com.shinemo.mq.client.db.facade.MqDbFacadeService;
 import com.shinemo.mq.client.mq.service.MqProviderService;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,13 +61,16 @@ public class MqProviderServiceImpl implements MqProviderService{
      * 是否支持集群
      */
     private boolean suppurtCrossCluster = false;
-
-
+    /**
+     * 数据库操作类 外部传入
+     */
+    private MqDbFacadeService mqDbFacadeService;
     @Override
     public void init(){
         AssertUtil.notNullString(nameSrcAddr,"nameSrvAddr is null");
         AssertUtil.notNullString(producerGroup,"producerGroup is null");
         AssertUtil.notNullString(bizName,"bizName is null");
+        AssertUtil.notNullObject(mqDbFacadeService,"mqDbFacadeService is null");
         producer = new DefaultMQProducer(producerGroup);
         try {
             producer.setNamesrvAddr(nameSrcAddr);

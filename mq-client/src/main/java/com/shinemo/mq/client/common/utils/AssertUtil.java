@@ -41,4 +41,15 @@ public class AssertUtil {
             throw new IllegalArgumentException(message);
         }
     }
+
+    /**
+     * 不为真抛出异常
+     * @param expression
+     * @param message
+     */
+    public static void isTrue(boolean expression, String message) {
+        if (!expression) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }
