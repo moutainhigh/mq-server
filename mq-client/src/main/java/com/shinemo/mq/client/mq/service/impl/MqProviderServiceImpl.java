@@ -62,9 +62,10 @@ public class MqProviderServiceImpl implements MqProviderService{
      */
     private boolean suppurtCrossCluster = false;
     /**
-     * 数据库操作类 外部传入
+     * 数据库操作类 外部传入rpc类
      */
     private MqDbFacadeService mqDbFacadeService;
+
     @Override
     public void init(){
         AssertUtil.notNullString(nameSrcAddr,"nameSrvAddr is null");
