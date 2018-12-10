@@ -30,10 +30,11 @@ public class MqConsumerServiceImpl implements MqConsumerService{
      */
     private String consumerGroupName;
     /**
-     * 地址列表若是集群,用;作为地址的分隔符
+     * 地址列表,若是集群用;作为地址的分隔符
      */
     private String nameSrvAddr;
     /**
+     * 默认ip@pid(pid代表jvm名字)
      * 同一个consumerGroupName下
      * 实例名称 如果客户端不设置此参数 默认会生成不同的实例名称 消费消息的时候利于负载均衡
      * 如果设置了此参数 有了同样的实例名称 会共有链接和资源 一个消息会被同样名称的每个consumer消费
@@ -76,7 +77,6 @@ public class MqConsumerServiceImpl implements MqConsumerService{
             }else {
             	mqPushConsumer.registerMessageListener((MessageListenerOrderly)messageListener);
             }
-            
             mqPushConsumer.start();
             log.info("[startComsumer] consumerGroupName:{} nameSrvAddr:{} topicMap:{}",consumerGroupName,
                     nameSrvAddr,topicAndSetTags);
