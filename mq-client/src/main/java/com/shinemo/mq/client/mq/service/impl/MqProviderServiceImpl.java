@@ -52,14 +52,18 @@ public class MqProviderServiceImpl implements MqProviderService{
     private String bizName;
     /**
      * mq消息统一放在同一个地方保管
-     * 如果跨集群 走httpRpc调用
+     * true rpc调用
+     * false 走rpcHttp调用 存入主库
      */
-    private boolean isRpcHttp;
+    private boolean isMster = true;
+    /**
+     * 是否支持集群
+     */
+    private boolean suppurtCrossCluster = false;
 
 
     @Override
-    public void init() {
-
+    public void init(){
         AssertUtil.notNullString(nameSrcAddr,"nameSrvAddr is null");
         AssertUtil.notNullString(producerGroup,"producerGroup is null");
         AssertUtil.notNullString(bizName,"bizName is null");
@@ -76,41 +80,38 @@ public class MqProviderServiceImpl implements MqProviderService{
             if(retryTimesWhenSendFailed>0){
                 producer.setRetryTimesWhenSendFailed(retryTimesWhenSendFailed);
             }
-            if(isRpcHttp){
-                //TODO producer变成json参数
-            }else{
-                producer.start();
+            //TODO newRpcConsumer对象
+            if(!isMster){
+                //塞入http属性 并且写死url只能是彩云侧的
             }
+            producer.start();
             log.error("mq producer start success:" + producerGroup + "," + nameSrcAddr + "," + instanceName+","+sendMsgTimeout+","+retryTimesWhenSendFailed);
         } catch (Exception e) {
             log.error("mq producer start error:" + producerGroup + "," + nameSrcAddr + "," + instanceName+","+sendMsgTimeout+","+retryTimesWhenSendFailed,e);
         }
     }
 
-    @Override
-    public void shutdown() {
-        if (producer != null) {
-            producer.shutdown();
-            log.error("mq producer shutdown success:" + producerGroup + "," + nameSrcAddr + "," + instanceName+","+sendMsgTimeout+","+retryTimesWhenSendFailed);
-        }
-    }
+
 
     @Override
-    public SendResult send(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId) {
+    public SendResult send(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId,
+                           boolean crossCluster,String url) {
         String loggerString = MessageFormat.format("Topic={0},Tags={1},body={2}", topic, tags, body);
         SendResult sendResult = null;
-        if(isRpcHttp){
-            //
-        }
         try{
             Message message = new Message();
             message.setTopic(topic);
             message.setTags(tags);
             message.setBody(body.getBytes("utf-8"));
-            if(selector==null){
-                sendResult = producer.send(message);
-            }else{
-                sendResult = producer.send(message,selector,selectorId);
+            if(crossCluster){
+                //TODO 跨集群
+                //调用该url下的aceproxy 走到那个集群 然后发送消息
+            }else{//直接走本地
+                if(selector==null){
+                    sendResult = producer.send(message);
+                }else{
+                    sendResult = producer.send(message,selector,selectorId);
+                }
             }
             if(sendResult == null || sendResult.getSendStatus() != SendStatus.SEND_OK){
                 log.error("send fail:"+sendResult+","+loggerString);
@@ -122,6 +123,7 @@ public class MqProviderServiceImpl implements MqProviderService{
             log.info("send exception:"+sendResult+","+loggerString,e);
             //TODO 插入数据库线程
         }
+
         return sendResult;
     }
 
@@ -138,5 +140,15 @@ public class MqProviderServiceImpl implements MqProviderService{
     @Override
     public SendResult retry(String topic, String tags, String body) {
         return null;
+    }
+
+
+    @Override
+    public void shutdown() {
+        if (producer != null) {
+            producer.shutdown();
+            log.error("mq producer shutdown success:" + producerGroup + "," + nameSrcAddr + "," + instanceName+"," +
+                    ""+sendMsgTimeout+","+retryTimesWhenSendFailed);
+        }
     }
 }

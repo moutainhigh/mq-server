@@ -24,7 +24,7 @@ public interface MqProviderService {
      * @param selectorId
      * @return
      */
-    SendResult send(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId);
+    SendResult send(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId,boolean crossCluster,String url);
 
     /**
      * 发送消息
