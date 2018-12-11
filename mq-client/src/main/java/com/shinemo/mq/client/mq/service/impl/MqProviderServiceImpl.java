@@ -6,14 +6,13 @@ import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
 import com.shinemo.mq.client.common.utils.AssertUtil;
-import com.shinemo.mq.client.db.facade.MqDbFacadeService;
+import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.client.mq.service.MqProviderService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
-import javax.annotation.Resource;
 import java.text.MessageFormat;
 
 @Slf4j
@@ -64,7 +63,7 @@ public class MqProviderServiceImpl implements MqProviderService{
     /**
      * 数据库操作类 外部传入rpc类
      */
-    private MqDbFacadeService mqDbFacadeService;
+    private MqMessageFacadeService mqDbFacadeService;
 
     @Override
     public void init(){
