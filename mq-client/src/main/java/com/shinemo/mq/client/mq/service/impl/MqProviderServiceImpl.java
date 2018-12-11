@@ -111,6 +111,7 @@ public class MqProviderServiceImpl implements MqProviderService{
             if(crossCluster){
                 //TODO 跨集群
                 //调用该url下的aceproxy 走到那个集群 然后发送消息
+                //appTypeUrl 的枚举
             }else{//直接走本地
                 if(selector==null){
                     sendResult = producer.send(message);
