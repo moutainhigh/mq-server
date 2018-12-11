@@ -57,7 +57,7 @@ public class MqProviderServiceImpl implements MqProviderService{
      */
     private boolean isMster = true;
     /**
-     * 是否支持集群
+     * 是否支持跨集群
      */
     private boolean suppurtCrossCluster = false;
     /**
