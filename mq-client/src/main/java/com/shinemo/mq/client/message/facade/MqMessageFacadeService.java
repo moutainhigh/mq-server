@@ -8,7 +8,7 @@ import com.shinemo.mq.client.message.domain.MqTo;
 import com.shinemo.mq.client.message.domain.MqToQuery;
 
 /**
- * Mq消息message操作类
+ * Mq消息Db message操作类
  */
 public interface MqMessageFacadeService {
 
