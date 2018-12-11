@@ -13,7 +13,8 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  * Created by zhangyan on 15/11/2018.
  */
 @SpringBootApplication(scanBasePackages = {
-
+        "com.shinemo.mq.server.web",
+        "com.shinemo.mq.core"
 })
 public class Application extends SpringBootServletInitializer {
 

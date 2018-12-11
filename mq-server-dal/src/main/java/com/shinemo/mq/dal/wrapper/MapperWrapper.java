@@ -7,6 +7,7 @@ import com.shinemo.mq.client.common.entity.BaseQuery;
 import com.shinemo.mq.client.common.error.CommonError;
 import com.shinemo.mq.client.common.error.ErrorWrapper;
 import com.shinemo.mq.client.common.exception.DatabaseSqlExecuteException;
+import com.shinemo.mq.client.common.exception.ParamterInvalidException;
 import com.shinemo.mq.client.common.list.ListWrapper;
 import com.shinemo.mq.client.common.result.Result;
 import com.shinemo.mq.client.common.result.ResultFactory;
@@ -29,10 +30,10 @@ public class MapperWrapper {
 
 	public static <Q extends BaseQuery, D extends BaseDO> Result<Long> count(BaseMapper<Q, D> mapper, Q query, ErrorWrapper error) {
 		if (mapper == null) {
-			throw new DatabaseSqlExecuteException(CommonError.MAPPER_NULL_COUNT);
+			throw new ParamterInvalidException(CommonError.MAPPER_NULL_COUNT);
 		}
 		if (query == null) {
-			throw new DatabaseSqlExecuteException(CommonError.QUERY_NULL_COUNT);
+			throw new ParamterInvalidException(CommonError.QUERY_NULL_COUNT);
 		}
 		try {
 			return ResultFactory.success(mapper.count(query));
@@ -47,10 +48,10 @@ public class MapperWrapper {
 
 	public static  <Q extends BaseQuery, D extends BaseDO> Result<ListWrapper<D>> find(BaseMapper<Q, D> mapper, Q query, ErrorWrapper error) {
 		if (mapper == null) {
-			throw new DatabaseSqlExecuteException(CommonError.MAPPER_NULL_COUNT);
+			throw new ParamterInvalidException(CommonError.MAPPER_NULL_COUNT);
 		}
 		if (query == null) {
-			throw new DatabaseSqlExecuteException(CommonError.QUERY_NULL_COUNT);
+			throw new ParamterInvalidException(CommonError.QUERY_NULL_COUNT);
 		}
 		try {
 			if (query.isPageEnable()) {
@@ -71,88 +72,66 @@ public class MapperWrapper {
 		}
 	}
 
-	public static <Q extends Query, D extends Domain, V extends View> Result<List<V>> findByNoPage(ViewMapper<Q, D, V> mapper, Q query) {
-		return findByNoPage(mapper, query, null);
-	}
-
-	public static <Q extends Query, D extends Domain, V extends View> Result<List<V>> findByNoPage(ViewMapper<Q, D, V> mapper, Q query, ErrorInfo error) {
-		if (mapper == null) {
-			throw new BizException(MAPPER_NULL_FIND);
-		}
-		if (query == null) {
-			throw new BizException(QUERY_NULL_FIND);
-		}
-		try {
-			if(query.isPageEnable()) {
-				return Result.error(NO_PAGE_FIND);
-			}
-			List<V> list = mapper.find(query);
-			return Result.success(list);
-		} catch (Throwable e) {
-			throw new BizException(error == null ? SQL_ERROR_FIND : error, e);
-		}
-	}
-
-	public static <Q extends Query, D extends Domain, V extends View> Result<V> get(ViewMapper<Q, D, V> mapper, Q query) {
+	public static  <Q extends BaseQuery, D extends BaseDO>  Result<D> get(BaseMapper<Q, D> mapper, Q query) {
 		return get(mapper, query, null);
 	}
 
-	public static <Q extends Query, D extends Domain, V extends View> Result<V> get(ViewMapper<Q, D, V> mapper, Q query, ErrorInfo error) {
+	public static  <Q extends BaseQuery, D extends BaseDO> Result<D> get(BaseMapper<Q, D>  mapper, Q query, ErrorWrapper error) {
 		if (mapper == null) {
-			throw new BizException(MAPPER_NULL_GET);
+			throw new ParamterInvalidException(CommonError.MAPPER_NULL_COUNT);
 		}
 		if (query == null) {
-			throw new BizException(QUERY_NULL_GET);
+			throw new ParamterInvalidException(CommonError.QUERY_NULL_COUNT);
 		}
 		try {
-			V d = mapper.get(query);
-			return Result.success(d, error);
+			D d = mapper.get(query);
+			return ResultFactory.success(d, error);
 		} catch (Throwable e) {
-			throw new BizException(error == null ? SQL_ERROR_GET : error, e);
+			throw new DatabaseSqlExecuteException(error == null ? CommonError.SQL_ERROR_FINND : error, e);
 		}
 	}
 
-	public static <Q extends Query, D extends Domain, V extends View> Result<D> insert(ViewMapper<Q, D, V> mapper, D entity) {
+	public static <Q extends BaseQuery, D extends BaseDO> Result<D> insert(BaseMapper<Q, D>  mapper, D entity) {
 		return insert(mapper, entity, null);
 	}
 
-	public static <Q extends Query, D extends Domain, V extends View> Result<D> insert(ViewMapper<Q, D, V> mapper, D entity, ErrorInfo error) {
+	public static <Q extends BaseQuery, D extends BaseDO>Result<D> insert(BaseMapper<Q, D> mapper,D  entity, ErrorWrapper error) {
 		if (mapper == null) {
-			throw new BizException(MAPPER_NULL_INSERT);
+			throw new ParamterInvalidException(CommonError.MAPPER_NULL_COUNT);
 		}
 		if (entity == null) {
-			throw new BizException(ENTITY_NULL_INSERT);
+			throw new ParamterInvalidException(CommonError.ENTTY_NULL);
 		}
 		try {
 			mapper.insert(entity);
-			return Result.success(entity);
+			return ResultFactory.success(entity);
 		} catch (Throwable e) {
-			throw new BizException(error == null ? SQL_ERROR_INSERT : error, e);
+			throw new DatabaseSqlExecuteException(error == null ? CommonError.SQL_ERROR_INSERT : error, e);
 		}
 	}
 
-	public static <Q extends Query, D extends Domain, V extends View> Result<D> update(ViewMapper<Q, D, V> mapper, D entity) {
+	public static  <Q extends BaseQuery, D extends BaseDO> Result<D> update(BaseMapper<Q, D> mapper, D entity) {
 		return update(mapper, entity, null);
 	}
 
-	public static <Q extends Query, D extends Domain, V extends View> Result<D> update(ViewMapper<Q, D, V> mapper, D entity, ErrorInfo error) {
+	public static  <Q extends BaseQuery, D extends BaseDO> Result<D>  update(BaseMapper<Q, D> mapper, D entity, ErrorWrapper error) {
 		if (mapper == null) {
-			throw new BizException(MAPPER_NULL_UPDATE);
+			throw new ParamterInvalidException(CommonError.MAPPER_NULL_COUNT);
 		}
 		if (entity == null) {
-			throw new BizException(ENTITY_NULL_UPDATE);
+			throw new ParamterInvalidException(CommonError.ENTTY_NULL);
 		}
 		try {
 			long result = mapper.update(entity);
 			if (result < 1) {
 				if (error == null) {
-					return Result.success(entity);
+					return ResultFactory.success(entity);
 				}
-				return Result.success(error);
+				return ResultFactory.success(error);
 			}
-			return Result.success(entity);
+			return ResultFactory.success(entity);
 		} catch (Throwable e) {
-			throw new BizException(error == null ? SQL_ERROR_UPDATE : error, e);
+			throw new DatabaseSqlExecuteException(error == null ? CommonError.SQL_ERROR_UPDATE : error, e);
 		}
 	}
 }

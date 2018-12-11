@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = {
         "com.shinemo.mq.core",
+        "com.shinemo.mq.dal"
 })
 public class CoreConfiguration {
 
