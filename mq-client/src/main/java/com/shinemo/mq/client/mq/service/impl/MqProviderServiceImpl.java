@@ -68,6 +68,7 @@ public class MqProviderServiceImpl implements MqProviderService{
 
     @Override
     public void init(){
+
         AssertUtil.notNullString(nameSrcAddr,"nameSrvAddr is null");
         AssertUtil.notNullString(producerGroup,"producerGroup is null");
         AssertUtil.notNullString(bizName,"bizName is null");
@@ -100,7 +101,7 @@ public class MqProviderServiceImpl implements MqProviderService{
 
     @Override
     public SendResult send(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId,
-                           boolean crossCluster,String url) {
+                           boolean crossCluster,Integer appType) {
         String loggerString = MessageFormat.format("Topic={0},Tags={1},body={2}", topic, tags, body);
         SendResult sendResult = null;
         try{
