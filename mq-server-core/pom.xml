@@ -37,6 +37,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.shinemo.jce</groupId>
+            <artifactId>jce</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

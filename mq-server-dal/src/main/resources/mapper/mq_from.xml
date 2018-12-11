@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shinemo.mq.mapper.MqFromMapper">
+
+	<!-- 结果集对应关系 -->
+	<resultMap id="result_map" type="com.shinemo.mq.client.message.domain.MqFrom" >
+		<id column="id" property="id"/>
+		<result property="gmtCreate" column="gmt_create"/>
+		<result property="gmtModified" column="gmt_modified"/>
+		<result property="topic" column="topic"/>
+		<result property="mqFromStatus" column="mq_from_status"/>
+		<result property="bizName" column="biz_name"/>
+		<result property="tags" column="tags"/>
+		<result property="body" column="body"/>
+		<result property="errorTimes" column="error_times"/>
+	</resultMap>
+
+	<!-- 数据库字段 -->
+	<sql id="columns">
+		id, gmt_create, gmt_modified, topic, mq_from_status, biz_name, tags, body,error_times
+	</sql>
+
+    <!-- 查询条件 -->
+    <sql id="conditions">
+        <where>
+            <choose>
+                <when test="id != null">and id = #{id}</when>
+                <otherwise>
+					<if test="mqFromStatus != null">and mq_from_status = #{mqFromStatus}</if>
+					<if test="bizName != null">and biz_name = #{bizName}</if>
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+
+	<!-- 查询结果集 -->
+    <select id="find" resultMap="result_map"
+            parameterType="com.shinemo.mq.client.message.domain.MqFromQuery">
+        select
+        <include refid="columns"/>
+        from mq_from
+        <include refid="conditions"/>
+        limit #{startRow, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+    </select>
+
+	<!-- 查询某条记录 -->
+    <select id="get" resultMap="result_map" parameterType="com.shinemo.mq.client.message.domain.MqFromQuery">
+        select
+        <include refid="columns"/>
+        from mq_from
+        <include refid="conditions"/>
+        limit 1
+    </select>
+
+	<!-- 统计查询结果数量 -->
+    <select id="count" resultType="long" parameterType="com.shinemo.mq.client.message.domain.MqFromQuery">
+        select count(*) from mq_from
+        <include refid="conditions"/>
+    </select>
+
+	<!-- 插入 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.shinemo.mq.client.message.domain.MqFrom">
+        insert into
+		mq_from
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                    <if test="id != null">
+						id,
+					</if>
+					gmt_create,
+					gmt_modified,
+                    <if test="topic != null">
+						topic,
+					</if>
+                    <if test="mqFromStatus != null">
+						mq_from_status,
+					</if>
+                    <if test="bizName != null">
+						biz_name,
+					</if>
+                    <if test="tags != null">
+						tags,
+					</if>
+                    <if test="body != null">
+						body,
+					</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                    <if test="id != null">
+						#{id, jdbcType=BIGINT},
+                    </if>
+                    now(),
+                    now(),
+                    <if test="topic != null">
+						#{topic, jdbcType=VARCHAR},
+                    </if>
+                    <if test="mqFromStatus != null">
+						#{mqFromStatus, jdbcType=INTEGER},
+                    </if>
+                    <if test="bizName != null">
+						#{bizName, jdbcType=VARCHAR},
+                    </if>
+                    <if test="tags != null">
+						#{tags, jdbcType=VARCHAR},
+                    </if>
+                    <if test="body != null">
+						#{body, jdbcType=VARCHAR},
+                    </if>
+        </trim>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="com.shinemo.mq.client.message.domain.MqFrom">
+        UPDATE mq_from
+        <set>
+            gmt_modified = now(),
+            <if test="mqFromStatus != null">
+                mq_from_status = #{mqFromStatus, jdbcType=INTEGER},
+            </if>
+            <if test="errorTimes != null">
+                error_times = #{errorTimes, jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+</mapper>

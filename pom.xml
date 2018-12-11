@@ -39,6 +39,7 @@
         <versions-maven-plugin-version>2.2</versions-maven-plugin-version>
         <commons-lang-version>2.6</commons-lang-version>
         <rocketmq-client-version>3.4.6</rocketmq-client-version>
+        <jce-version>5.0.4-SNAPSHOT</jce-version>
     </properties>
 
     <dependencyManagement>
@@ -117,6 +118,11 @@
                 <version>${spring-boot-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.shinemo.jce</groupId>
+                <artifactId>jce</artifactId>
+                <version>${jce-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
