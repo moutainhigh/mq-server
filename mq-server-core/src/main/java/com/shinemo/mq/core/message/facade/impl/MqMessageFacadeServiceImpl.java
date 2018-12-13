@@ -2,6 +2,7 @@ package com.shinemo.mq.core.message.facade.impl;
 
 import com.shinemo.mq.client.common.list.ListWrapper;
 import com.shinemo.mq.client.common.result.Result;
+import com.shinemo.mq.client.common.result.ResultFactory;
 import com.shinemo.mq.client.message.domain.MqFrom;
 import com.shinemo.mq.client.message.domain.MqFromQuery;
 import com.shinemo.mq.client.message.domain.MqTo;
@@ -22,22 +23,27 @@ public class MqMessageFacadeServiceImpl implements MqMessageFacadeService {
 
     @Override
     public Result<MqFrom> insertMqFrom(MqFrom from) {
-        return null;
+        return mqFromWrapper.insert(from);
     }
 
     @Override
     public Result<Void> updateMqFrom(MqFrom from) {
-        return null;
+        Result<MqFrom> rs = mqFromWrapper.update(from);
+        if(rs.hasValue()){
+            return ResultFactory.success();
+        }else{
+            return ResultFactory.error(rs.getError());
+        }
     }
 
     @Override
     public Result<ListWrapper<MqFrom>> findMqFrom(MqFromQuery query) {
-        return null;
+        return mqFromWrapper.find(query);
     }
 
     @Override
     public Result<MqFrom> getMqFrom(MqFromQuery query) {
-        return null;
+        return mqFromWrapper.get(query);
     }
 
     @Override
