@@ -7,13 +7,18 @@ import com.shinemo.mq.client.message.domain.MqFromQuery;
 import com.shinemo.mq.client.message.domain.MqTo;
 import com.shinemo.mq.client.message.domain.MqToQuery;
 import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
+import com.shinemo.mq.dal.wrapper.MqFromWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 @Service("mqMessageFacadeService")
 @Slf4j
 public class MqMessageFacadeServiceImpl implements MqMessageFacadeService {
 
+    @Resource
+    private MqFromWrapper mqFromWrapper;
 
     @Override
     public Result<MqFrom> insertMqFrom(MqFrom from) {
