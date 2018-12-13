@@ -5,7 +5,10 @@ import com.alibaba.rocketmq.client.producer.MessageQueueSelector;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
+import com.shinemo.mq.client.common.entity.InternalEventBus;
 import com.shinemo.mq.client.common.utils.AssertUtil;
+import com.shinemo.mq.client.common.utils.MqContextUtil;
+import com.shinemo.mq.client.event.MqDbEvent;
 import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.client.mq.service.MqProviderService;
 import lombok.Getter;
@@ -121,16 +124,27 @@ public class MqProviderServiceImpl implements MqProviderService{
             }
             if(sendResult == null || sendResult.getSendStatus() != SendStatus.SEND_OK){
                 log.error("send fail:"+sendResult+","+loggerString);
-                //TODO 插入数据库 发送异步线程
+                InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
+                        InternalEventBus.class);
+                eventBus.post(initDbEvent(message));
             }else{
                 log.debug("send msg success,messageId="+sendResult.getMsgId()+","+loggerString);
             }
         }catch(Exception e){
             log.info("send exception:"+sendResult+","+loggerString,e);
-            //TODO 插入数据库线程
+            InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
+                    InternalEventBus.class);
+            eventBus.post(initDbEvent(topic,tags,body));
         }
-
         return sendResult;
+    }
+
+    private Object initDbEvent(String topic, String tags, String body) {
+        return null;
+    }
+
+    private MqDbEvent initDbEvent(Message message) {
+        return null;
     }
 
     @Override
