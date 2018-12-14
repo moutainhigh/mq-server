@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class MqContextUtil {
 
 
-    private static HashMap<String,Object> map;
+    private static HashMap<String,Object> map = new HashMap<>();
 
     public static  final  <T>  T getBeanAndGenerateIfNotExist(String beanName, Class<T> classBean){
         T t = null;
