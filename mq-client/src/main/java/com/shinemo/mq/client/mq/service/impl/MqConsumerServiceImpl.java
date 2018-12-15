@@ -4,6 +4,7 @@ import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListener;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerOrderly;
+import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
 import com.google.common.base.Joiner;
 import com.shinemo.mq.client.common.utils.AssertUtil;
@@ -88,11 +89,29 @@ public class MqConsumerServiceImpl implements MqConsumerService{
 
     @Override
     public void shutdown() {
-
+    	if(mqPushConsumer!=null){
+    		mqPushConsumer.shutdown();
+			log.error("consumer shutdown:"+consumerGroupName+","+nameSrvAddr+","+instanceName);
+		}
     }
 
     @Override
     public void subscribe(String topic, Set<String> tags) {
+    	log.info("[subscribe] topic:"+topic+",tags:"+tags);
+		if(tags== null || tags.size()<=0) {
+			return;
+		}
+		Set<String> oldTags = topicAndSetTags!=null? topicAndSetTags.get(topic):null;
+		if(oldTags!=null&&oldTags.size()>0) {
+			tags.addAll(oldTags);
+		}
+		String tagsString = Joiner.on(STR).join(tags);
+		try {
+			mqPushConsumer.subscribe(topic, tagsString);
+			log.info("[subscribe] success:"+topic+","+tagsString);
+		} catch (MQClientException e) {
+			e.printStackTrace();
+		}
 
     }
 }
