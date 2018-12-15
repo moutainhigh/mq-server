@@ -9,8 +9,11 @@ import com.shinemo.mq.client.common.entity.InternalEventBus;
 import com.shinemo.mq.client.common.utils.AssertUtil;
 import com.shinemo.mq.client.common.utils.MqContextUtil;
 import com.shinemo.mq.client.event.MqDbEvent;
+import com.shinemo.mq.client.message.domain.MqFrom;
+import com.shinemo.mq.client.message.domain.MqFromStatusEnum;
 import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.client.mq.service.MqProviderService;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -88,10 +91,6 @@ public class MqProviderServiceImpl implements MqProviderService{
             if(retryTimesWhenSendFailed>0){
                 producer.setRetryTimesWhenSendFailed(retryTimesWhenSendFailed);
             }
-            //TODO newRpcConsumer对象
-            if(!isMster){
-                //塞入http属性 并且写死url只能是彩云侧的
-            }
             producer.start();
             log.error("mq producer start success:" + producerGroup + "," + nameSrcAddr + "," + instanceName+","+sendMsgTimeout+","+retryTimesWhenSendFailed);
         } catch (Exception e) {
@@ -139,12 +138,22 @@ public class MqProviderServiceImpl implements MqProviderService{
         return sendResult;
     }
 
-    private Object initDbEvent(String topic, String tags, String body) {
-        return null;
+    private MqDbEvent initDbEvent(String topic, String tags, String body) {
+    	MqDbEvent dbEvnet = new MqDbEvent();
+    	MqFrom mqFrom = new MqFrom();
+    	mqFrom.setBizName(bizName);
+    	mqFrom.setBody(body);
+		mqFrom.setMqFromStatus(MqFromStatusEnum.WAIT_SEND);
+		mqFrom.setTags(tags);
+		mqFrom.setTopic(topic);
+    	dbEvnet.setMqMessageFacadeService(mqDbFacadeService);
+    	dbEvnet.setMqFrom(mqFrom);
+        return dbEvnet;
     }
 
     private MqDbEvent initDbEvent(Message message) {
-        return null;
+    	String body =  new String (message.getBody());
+    	return initDbEvent(message.getTopic(),message.getTags(),body);
     }
 
     @Override

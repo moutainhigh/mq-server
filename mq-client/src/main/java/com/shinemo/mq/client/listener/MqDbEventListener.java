@@ -20,7 +20,12 @@ public class MqDbEventListener {
     public void onEvent(MqDbEvent event) {
         // TODO 调用rpc接口
         // 失败插入缓存队列重试
-        // TODO
+    	if(event.getMqFrom()!=null) {
+    		event.getMqMessageFacadeService().insertMqFrom(event.getMqFrom());
+    	}else {
+    		event.getMqMessageFacadeService().insertMqTo(event.getMqTo());
+    	}
+    	
     }
 
 }
