@@ -6,6 +6,7 @@ import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
 import com.shinemo.mq.client.common.entity.InternalEventBus;
+import com.shinemo.mq.client.common.result.Result;
 import com.shinemo.mq.client.common.utils.AssertUtil;
 import com.shinemo.mq.client.common.utils.MqContextUtil;
 import com.shinemo.mq.client.event.MqDbEvent;
@@ -13,6 +14,7 @@ import com.shinemo.mq.client.message.domain.MqFrom;
 import com.shinemo.mq.client.message.domain.MqFromStatusEnum;
 import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.client.mq.service.MqProviderService;
+import com.shinemo.mq.server.client.send.facade.MqSendFacadeService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -105,9 +107,12 @@ public class MqProviderServiceImpl implements MqProviderService{
             message.setTags(tags);
             message.setBody(body.getBytes("utf-8"));
             if(crossCluster){
-                //TODO 跨集群
-                //调用该url下的aceproxy 走到那个集群 然后发送消息
-                //appTypeUrl 的枚举
+            	MqSendFacadeService sendFacadeService = MqContextUtil.getSendFacadeServiceByAppType(appType);
+            	Result<SendResult> ret = sendFacadeService.sendWithSelector(topic, tags, body, 
+            			selector, selectorId);
+            	if(ret.hasValue()) {
+            		sendResult = ret.getData();
+            	}
             }else{//直接走本地
                 if(selector==null){
                     sendResult = producer.send(message);
@@ -152,7 +157,7 @@ public class MqProviderServiceImpl implements MqProviderService{
 
     @Override
     public SendResult send(String topic, String tags, String body){
-        return null;
+        return send(topic,tags,body,null,null,false,null);
     }
 
     @Override
