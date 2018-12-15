@@ -8,7 +8,10 @@ import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
 import com.google.common.base.Joiner;
 import com.shinemo.mq.client.common.utils.AssertUtil;
+import com.shinemo.mq.client.listener.MqMessageListenerConcurrently;
 import com.shinemo.mq.client.mq.service.MqConsumerService;
+import com.shinemo.mq.client.mq.service.MqMessageConsumerService;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -54,12 +57,17 @@ public class MqConsumerServiceImpl implements MqConsumerService{
      * 消费者
      */
     private DefaultMQPushConsumer mqPushConsumer;
+    
+    /**
+     * 
+     */
+    private MqMessageConsumerService mqMessageConsumerService;
 
 
    
 	@Override
     public void init() {
-        AssertUtil.notNullObject(messageListener,"messageListener is null");
+        
         AssertUtil.notNullString(nameSrvAddr,"nameSrvAddr is null");
         AssertUtil.notNullString(consumerGroupName,"consumerGroupName is null");
         AssertUtil.notNullMap(topicAndSetTags,"topicMap is null");
@@ -67,6 +75,14 @@ public class MqConsumerServiceImpl implements MqConsumerService{
         if(!StringUtils.isBlank(instanceName)){
             mqPushConsumer.setInstanceName(instanceName);
         }
+        if(messageListener == null) {
+        	AssertUtil.notNullObject(mqMessageConsumerService, "listener and mqMessageConsumerService not together null");
+        	MqMessageListenerConcurrently listener = new MqMessageListenerConcurrently();
+        	listener.setBizName(consumerGroupName);
+        	listener.setCheckExpire(true);
+        	listener.setMqMessageConsumerService(mqMessageConsumerService);
+        }
+        
         mqPushConsumer.setMessageModel(MessageModel.CLUSTERING);
         try {
             for (Map.Entry<String, Set<String>> entry : topicAndSetTags.entrySet()) {

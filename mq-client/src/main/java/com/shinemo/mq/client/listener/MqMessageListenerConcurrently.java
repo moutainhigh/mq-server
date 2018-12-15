@@ -69,12 +69,6 @@ public class MqMessageListenerConcurrently implements MessageListenerConcurrentl
 		}
 		return  ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 	}
-	
-	/**
-	 * 初始化方法以及校验参数
-	 */
-	public void init() {
 		
-	}
 
 }
