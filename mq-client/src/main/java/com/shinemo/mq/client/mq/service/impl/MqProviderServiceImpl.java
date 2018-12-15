@@ -57,12 +57,6 @@ public class MqProviderServiceImpl implements MqProviderService{
      */
     private String bizName;
     /**
-     * mq消息统一放在同一个地方保管
-     * true rpc调用
-     * false 走rpcHttp调用 存入主库
-     */
-    private boolean isMster = true;
-    /**
      * 是否支持跨集群
      */
     private boolean suppurtCrossCluster = false;
