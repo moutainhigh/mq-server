@@ -49,7 +49,7 @@ public interface MqMessageFacadeService {
 
     /**
      * 更新的消息
-     * @param from
+     * @param mqTo
      * @return
      */
     Result<Void> updateMqTo(MqTo mqTo);
