@@ -64,14 +64,5 @@ public class MqMessageListenerOrderly implements MessageListenerOrderly{
 		}
 		return ConsumeOrderlyStatus.SUCCESS;
 	}
-	
-	/**
-	 * 初始化方法以及校验参数
-	 */
-	public void init() {
-		
-	}
-
-	
 
 }
