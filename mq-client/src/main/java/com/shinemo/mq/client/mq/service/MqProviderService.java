@@ -26,7 +26,6 @@ public interface MqProviderService {
      */
     SendResult send(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId,
                     boolean crossCluster,Integer appType);
-
     /**
      * 发送消息
      * @param topic
@@ -35,24 +34,4 @@ public interface MqProviderService {
      * @return
      */
     SendResult send(String topic, String tags, String body);
-
-    /**
-     * 重试
-     * @param topic
-     * @param tags
-     * @param body
-     * @param selector
-     * @param selectorId
-     * @return
-     */
-    SendResult retry(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId);
-
-    /**
-     * 重试
-     * @param topic
-     * @param tags
-     * @param body
-     * @return
-     */
-    SendResult retry(String topic, String tags, String body);
 }

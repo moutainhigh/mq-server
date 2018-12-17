@@ -161,17 +161,6 @@ public class MqProviderServiceImpl implements MqProviderService{
     }
 
     @Override
-    public SendResult retry(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId) {
-        return null;
-    }
-
-    @Override
-    public SendResult retry(String topic, String tags, String body) {
-        return null;
-    }
-
-
-    @Override
     public void shutdown() {
         if (producer != null) {
             producer.shutdown();
