@@ -7,6 +7,8 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.common.message.MessageExt;
+import com.shinemo.mq.client.common.utils.MqContextUtil;
+import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.client.mq.service.MqMessageConsumerService;
 
 
@@ -39,37 +41,36 @@ public class MqMessageListenerConcurrently implements MessageListenerConcurrentl
 	/**
 	 * 过期时间 单位天
 	 */
-	private long expireTimesDays;
+	private long expireTimesDays = 30;
 	
 	/**
 	 * 校验是否过期
 	 */
 	private boolean checkExpire = false;
-	
+
 	/**
 	 * 一天的毫秒数
 	 */
 	private final static long DAYMILILLS = 24*60*60*1000;
-	
-	//数据库操作 rpc类
+	/**
+	 * 是否需要http调用数据库
+	 */
+	private boolean isNeedHttp;
 
 	@Override
 	public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,ConsumeConcurrentlyContext context) {
 		log.info(Thread.currentThread().getName() + " Receive New Messages: " + msgs.size());
 		for(MessageExt msg:msgs){
 			if(checkExpire) {
-				//判断过期 加log
-				long exprieMills = DAYMILILLS*expireTimesDays;
+				long exprieMills = DAYMILILLS * expireTimesDays;
 				long now = System.currentTimeMillis();
 				if(now - msg.getBornTimestamp() > exprieMills) {
 					log.error("[mqExpire] message:{}",msg);
 					continue;
 				}
 			}
-			
 			if(checkRepeatMessage){
-				//new 数据库操作的类 根据是否主服务 否则加入http
-				//先查询是否被消费 无则插入 有则直接返回
+				MqMessageFacadeService messageFacadeService = MqContextUtil.getMessageFacadeService(false);
 			}else{
 				log.info("message receive:"+msg.getMsgId());
 				mqMessageConsumerService.handleMessage(msg);
