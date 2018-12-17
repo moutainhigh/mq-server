@@ -9,6 +9,11 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import com.alibaba.rocketmq.common.message.MessageExt;
+import com.shinemo.mq.client.common.result.Result;
+import com.shinemo.mq.client.common.utils.MqContextUtil;
+import com.shinemo.mq.client.message.domain.MqTo;
+import com.shinemo.mq.client.message.domain.MqToQuery;
+import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.client.mq.service.MqMessageConsumerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MqMessageListenerOrderly implements MessageListenerOrderly{
 	
-	
-	
+
 	/**
 	 * 是否校验重复消费
 	 */
@@ -43,8 +47,11 @@ public class MqMessageListenerOrderly implements MessageListenerOrderly{
 	 * 校验是否过期
 	 */
 	private boolean checkExpire = false;
-	
-	//数据库操作 rpc类
+
+	/**
+	 * 一天的毫秒数
+	 */
+	private final static long DAYMILILLS = 24*60*60*1000;
 
 
 	@Override
@@ -52,15 +59,28 @@ public class MqMessageListenerOrderly implements MessageListenerOrderly{
 		log.info(Thread.currentThread().getName() + " Receive New Messages: " + msgs.size());
 		for(MessageExt msg:msgs){
 			if(checkExpire) {
-				//判断过期 加log
-				continue;
+				long exprieMills = DAYMILILLS * expireTimesDays;
+				long now = System.currentTimeMillis();
+				if(now - msg.getBornTimestamp() > exprieMills) {
+					log.error("[mqExpire] message:{}",msg);
+					continue;
+				}
 			}
 			if(checkRepeatMessage){
-				//先查询是否被消费 无则插入 有则直接返回
+				MqMessageFacadeService messageFacadeService = MqContextUtil.getMessageFacadeService(false);
+				MqToQuery query = new MqToQuery();
+				query.setMessageId(msg.getMsgId());
+				query.setBizName(bizName);
+				Result<MqTo> repeatRs = messageFacadeService.getMqTo(query);
+				if(repeatRs.hasValue()){
+					log.error("[mqRepeatMessage] message:{}",msg);
+					continue;
+				}
+				messageFacadeService.insertMqTo(MqContextUtil.initMqTo(msg,bizName));
 			}else{
 				log.info("message receive:"+msg.getMsgId());
-				mqMessageConsumerService.handleMessage(msg);
 			}
+			mqMessageConsumerService.handleMessage(msg);
 		}
 		return ConsumeOrderlyStatus.SUCCESS;
 	}

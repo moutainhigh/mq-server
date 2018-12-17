@@ -42,10 +42,10 @@ public interface MqMessageFacadeService {
 
     /**
      * 插入消费的消息
-     * @param from
+     * @param mqTo
      * @return
      */
-    Result<MqTo> insertMqTo(MqTo from);
+    Result<MqTo> insertMqTo(MqTo mqTo);
 
     /**
      * 更新的消息
@@ -66,7 +66,7 @@ public interface MqMessageFacadeService {
      * @param query
      * @return
      */
-    Result<MqTo> getMqFrom(MqToQuery query);
+    Result<MqTo> getMqTo(MqToQuery query);
 
 
 }

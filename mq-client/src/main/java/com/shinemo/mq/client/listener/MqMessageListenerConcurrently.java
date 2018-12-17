@@ -7,7 +7,10 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.common.message.MessageExt;
+import com.shinemo.mq.client.common.result.Result;
 import com.shinemo.mq.client.common.utils.MqContextUtil;
+import com.shinemo.mq.client.message.domain.MqTo;
+import com.shinemo.mq.client.message.domain.MqToQuery;
 import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.client.mq.service.MqMessageConsumerService;
 
@@ -71,10 +74,19 @@ public class MqMessageListenerConcurrently implements MessageListenerConcurrentl
 			}
 			if(checkRepeatMessage){
 				MqMessageFacadeService messageFacadeService = MqContextUtil.getMessageFacadeService(false);
+				MqToQuery query = new MqToQuery();
+				query.setMessageId(msg.getMsgId());
+				query.setBizName(bizName);
+				Result<MqTo> repeatRs = messageFacadeService.getMqTo(query);
+				if(repeatRs.hasValue()){
+					log.error("[mqRepeatMessage] message:{}",msg);
+					continue;
+				}
+				messageFacadeService.insertMqTo(MqContextUtil.initMqTo(msg,bizName));
 			}else{
 				log.info("message receive:"+msg.getMsgId());
-				mqMessageConsumerService.handleMessage(msg);
 			}
+			mqMessageConsumerService.handleMessage(msg);
 		}
 		return  ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 	}
