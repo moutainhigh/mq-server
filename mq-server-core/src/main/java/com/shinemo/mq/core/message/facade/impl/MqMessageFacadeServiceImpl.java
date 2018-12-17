@@ -9,6 +9,7 @@ import com.shinemo.mq.client.message.domain.MqTo;
 import com.shinemo.mq.client.message.domain.MqToQuery;
 import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.dal.wrapper.MqFromWrapper;
+import com.shinemo.mq.dal.wrapper.MqToWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class MqMessageFacadeServiceImpl implements MqMessageFacadeService {
 
     @Resource
     private MqFromWrapper mqFromWrapper;
+
+    @Resource
+    private MqToWrapper mqToWrapper;
+
 
     @Override
     public Result<MqFrom> insertMqFrom(MqFrom from) {
@@ -47,22 +52,28 @@ public class MqMessageFacadeServiceImpl implements MqMessageFacadeService {
     }
 
     @Override
-    public Result<MqTo> insertMqTo(MqTo from) {
-        return null;
+    public Result<MqTo> insertMqTo(MqTo mqTo) {
+        return mqToWrapper.insert(mqTo);
     }
 
     @Override
-    public Result<Void> updateMqTo(MqTo from) {
-        return null;
+    public Result<Void> updateMqTo(MqTo mqTo) {
+        Result<MqTo> rs = mqToWrapper.update(mqTo);
+        if(rs.hasValue()){
+            return ResultFactory.success();
+        }else{
+            return ResultFactory.error(rs.getError());
+        }
     }
 
     @Override
     public Result<ListWrapper<MqTo>> findMqTo(MqToQuery query) {
-        return null;
+        return mqToWrapper.find(query);
     }
 
     @Override
-    public Result<MqTo> getMqFrom(MqToQuery query) {
-        return null;
+    public Result<MqTo> getMqTo(MqToQuery query) {
+        return mqToWrapper.get(query);
     }
+
 }

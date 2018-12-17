@@ -52,7 +52,7 @@ public interface MqMessageFacadeService {
      * @param from
      * @return
      */
-    Result<Void> updateMqTo(MqTo from);
+    Result<Void> updateMqTo(MqTo mqTo);
 
     /**
      * 查询消费的消息列表
