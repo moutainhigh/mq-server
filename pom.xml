@@ -7,14 +7,14 @@
         <artifactId>parent</artifactId>
         <version>1.0.0</version>
     </parent>
-    <groupId>com.shinemo.mq-server</groupId>
+    <groupId>com.shinemo.mq.server</groupId>
     <artifactId>mq-server</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
 
     <modules>
-        <module>mq-client</module>
+        <module>mq-server-client</module>
         <module>mq-server-core</module>
         <module>mq-server-dal</module>
         <module>mq-server-web</module>
@@ -45,8 +45,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.shinemo.mq</groupId>
-                <artifactId>mq-client</artifactId>
+                <groupId>com.shinemo.mq-server</groupId>
+                <artifactId>mq-server-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
