@@ -59,9 +59,13 @@ public class MqConsumerServiceImpl implements MqConsumerService{
     private DefaultMQPushConsumer mqPushConsumer;
     
     /**
-     * 
+     * 消费service
      */
     private MqMessageConsumerService mqMessageConsumerService;
+    /**
+     * 是否需要http调用数据库
+     */
+    private boolean isNeedHttp = false;
 
 
    
@@ -81,6 +85,7 @@ public class MqConsumerServiceImpl implements MqConsumerService{
         	listener.setBizName(consumerGroupName);
         	listener.setCheckExpire(true);
         	listener.setMqMessageConsumerService(mqMessageConsumerService);
+            listener.setNeedHttp(isNeedHttp);
         }
         
         mqPushConsumer.setMessageModel(MessageModel.CLUSTERING);

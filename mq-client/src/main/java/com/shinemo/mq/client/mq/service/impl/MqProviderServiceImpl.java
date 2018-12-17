@@ -63,9 +63,10 @@ public class MqProviderServiceImpl implements MqProviderService{
      */
     private boolean suppurtCrossCluster = false;
     /**
-     * 数据库操作类 外部传入rpc类
+     * 是否数据库需要http调用
      */
-    private MqMessageFacadeService mqDbFacadeService;
+    private boolean isNeedHttp = false;
+
 
     @Override
     public void init(){
@@ -73,7 +74,6 @@ public class MqProviderServiceImpl implements MqProviderService{
         AssertUtil.notNullString(nameSrcAddr,"nameSrvAddr is null");
         AssertUtil.notNullString(producerGroup,"producerGroup is null");
         AssertUtil.notNullString(bizName,"bizName is null");
-        AssertUtil.notNullObject(mqDbFacadeService,"mqDbFacadeService is null");
         producer = new DefaultMQProducer(producerGroup);
         try {
             producer.setNamesrvAddr(nameSrcAddr);
@@ -145,7 +145,7 @@ public class MqProviderServiceImpl implements MqProviderService{
 		mqFrom.setMqFromStatus(MqFromStatusEnum.WAIT_SEND);
 		mqFrom.setTags(tags);
 		mqFrom.setTopic(topic);
-    	dbEvnet.setMqMessageFacadeService(mqDbFacadeService);
+    	dbEvnet.setMqMessageFacadeService(MqContextUtil.getMessageFacadeService(false));
     	dbEvnet.setMqFrom(mqFrom);
         return dbEvnet;
     }
