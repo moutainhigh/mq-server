@@ -1,7 +1,7 @@
 package com.shinemo.mq.dal.wrapper;
 
-import com.shinemo.mq.client.message.domain.MqTo;
-import com.shinemo.mq.client.message.domain.MqToQuery;
+import com.shinemo.mq.server.client.message.domain.MqTo;
+import com.shinemo.mq.server.client.message.domain.MqToQuery;
 import com.shinemo.mq.dal.mapper.BaseMapper;
 import com.shinemo.mq.dal.mapper.MqToMapper;
 import org.springframework.stereotype.Service;

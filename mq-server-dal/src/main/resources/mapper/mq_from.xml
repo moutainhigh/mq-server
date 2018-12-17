@@ -4,7 +4,7 @@
 <mapper namespace="com.shinemo.mq.mapper.MqFromMapper">
 
 	<!-- 结果集对应关系 -->
-	<resultMap id="result_map" type="com.shinemo.mq.client.message.domain.MqFrom" >
+	<resultMap id="result_map" type="MqFrom" >
 		<id column="id" property="id"/>
 		<result property="gmtCreate" column="gmt_create"/>
 		<result property="gmtModified" column="gmt_modified"/>
@@ -37,7 +37,7 @@
 
 	<!-- 查询结果集 -->
     <select id="find" resultMap="result_map"
-            parameterType="com.shinemo.mq.client.message.domain.MqFromQuery">
+            parameterType="MqFromQuery">
         select
         <include refid="columns"/>
         from mq_from
@@ -46,7 +46,7 @@
     </select>
 
 	<!-- 查询某条记录 -->
-    <select id="get" resultMap="result_map" parameterType="com.shinemo.mq.client.message.domain.MqFromQuery">
+    <select id="get" resultMap="result_map" parameterType="MqFromQuery">
         select
         <include refid="columns"/>
         from mq_from
@@ -55,14 +55,14 @@
     </select>
 
 	<!-- 统计查询结果数量 -->
-    <select id="count" resultType="long" parameterType="com.shinemo.mq.client.message.domain.MqFromQuery">
+    <select id="count" resultType="long" parameterType="MqFromQuery">
         select count(*) from mq_from
         <include refid="conditions"/>
     </select>
 
 	<!-- 插入 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id"
-            parameterType="com.shinemo.mq.client.message.domain.MqFrom">
+            parameterType="MqFrom">
         insert into
 		mq_from
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -112,7 +112,7 @@
     </insert>
 
     <!-- 更新 -->
-    <update id="update" parameterType="com.shinemo.mq.client.message.domain.MqFrom">
+    <update id="update" parameterType="MqFrom">
         UPDATE mq_from
         <set>
             gmt_modified = now(),

@@ -4,14 +4,12 @@
 
     <parent>
         <artifactId>mq-server</artifactId>
-        <groupId>com.shinemo.mq-server</groupId>
+        <groupId>com.shinemo.mq.server</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.shinemo.mq-server</groupId>
     <artifactId>mq-server-web</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>mq-server-web</name>
 
@@ -19,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.shinemo.mq-server</groupId>
+            <groupId>com.shinemo.mq.server</groupId>
             <artifactId>mq-server-core</artifactId>
         </dependency>
         <dependency>
@@ -86,7 +84,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

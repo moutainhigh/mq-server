@@ -2,7 +2,7 @@ package com.shinemo.mq.core.configuration;
 
 
 import com.shinemo.jce.spring.AaceProviderBean;
-import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
+import com.shinemo.mq.server.client.message.facade.MqMessageFacadeService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

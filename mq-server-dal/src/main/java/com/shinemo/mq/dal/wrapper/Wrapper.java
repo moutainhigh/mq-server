@@ -1,11 +1,11 @@
 package com.shinemo.mq.dal.wrapper;
 
 
-import com.shinemo.mq.client.common.entity.BaseDO;
-import com.shinemo.mq.client.common.entity.BaseQuery;
-import com.shinemo.mq.client.common.error.ErrorWrapper;
-import com.shinemo.mq.client.common.list.ListWrapper;
-import com.shinemo.mq.client.common.result.Result;
+import com.shinemo.mq.server.client.common.entity.BaseDO;
+import com.shinemo.mq.server.client.common.entity.BaseQuery;
+import com.shinemo.mq.server.client.common.error.ErrorWrapper;
+import com.shinemo.mq.server.client.common.list.ListWrapper;
+import com.shinemo.mq.server.client.common.result.Result;
 import com.shinemo.mq.dal.mapper.BaseMapper;
 
 /**

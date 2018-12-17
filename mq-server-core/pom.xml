@@ -23,7 +23,7 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.shinemo.mq-server</groupId>
+            <groupId>com.shinemo.mq.server</groupId>
             <artifactId>mq-server-dal</artifactId>
         </dependency>
         <dependency>

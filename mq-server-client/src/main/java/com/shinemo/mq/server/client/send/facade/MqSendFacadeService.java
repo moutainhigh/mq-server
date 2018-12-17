@@ -2,7 +2,7 @@ package com.shinemo.mq.server.client.send.facade;
 
 import com.alibaba.rocketmq.client.producer.MessageQueueSelector;
 import com.alibaba.rocketmq.client.producer.SendResult;
-import com.shinemo.mq.client.common.result.Result;
+import com.shinemo.mq.server.client.common.result.Result;
 
 public interface MqSendFacadeService {
 	

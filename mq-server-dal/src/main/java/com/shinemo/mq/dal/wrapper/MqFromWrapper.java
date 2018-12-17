@@ -1,9 +1,10 @@
 package com.shinemo.mq.dal.wrapper;
 
-import com.shinemo.mq.client.message.domain.MqFrom;
-import com.shinemo.mq.client.message.domain.MqFromQuery;
+
 import com.shinemo.mq.dal.mapper.BaseMapper;
 import com.shinemo.mq.dal.mapper.MqFromMapper;
+import com.shinemo.mq.server.client.message.domain.MqFrom;
+import com.shinemo.mq.server.client.message.domain.MqFromQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,6 @@ public class MqFromWrapper extends Wrapper<MqFromQuery,MqFrom>{
 
     @Override
     protected BaseMapper<MqFromQuery, MqFrom> getMapper() {
-        return mqFromMapper;
+        return this.mqFromMapper;
     }
 }

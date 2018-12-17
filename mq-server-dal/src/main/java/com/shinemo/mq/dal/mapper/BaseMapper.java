@@ -1,7 +1,9 @@
 package com.shinemo.mq.dal.mapper;
 
-import com.shinemo.mq.client.common.entity.BaseDO;
-import com.shinemo.mq.client.common.entity.BaseQuery;
+
+
+import com.shinemo.mq.server.client.common.entity.BaseDO;
+import com.shinemo.mq.server.client.common.entity.BaseQuery;
 
 import java.util.List;
 

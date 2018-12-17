@@ -1,13 +1,13 @@
 package com.shinemo.mq.core.message.facade.impl;
 
-import com.shinemo.mq.client.common.list.ListWrapper;
-import com.shinemo.mq.client.common.result.Result;
-import com.shinemo.mq.client.common.result.ResultFactory;
-import com.shinemo.mq.client.message.domain.MqFrom;
-import com.shinemo.mq.client.message.domain.MqFromQuery;
-import com.shinemo.mq.client.message.domain.MqTo;
-import com.shinemo.mq.client.message.domain.MqToQuery;
-import com.shinemo.mq.client.message.facade.MqMessageFacadeService;
+import com.shinemo.mq.server.client.common.list.ListWrapper;
+import com.shinemo.mq.server.client.common.result.Result;
+import com.shinemo.mq.server.client.common.result.ResultFactory;
+import com.shinemo.mq.server.client.message.domain.MqFrom;
+import com.shinemo.mq.server.client.message.domain.MqFromQuery;
+import com.shinemo.mq.server.client.message.domain.MqTo;
+import com.shinemo.mq.server.client.message.domain.MqToQuery;
+import com.shinemo.mq.server.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.dal.wrapper.MqFromWrapper;
 import com.shinemo.mq.dal.wrapper.MqToWrapper;
 import lombok.extern.slf4j.Slf4j;
