@@ -1,5 +1,6 @@
 package com.shinemo.mq.server.client.common.query;
 
+import com.shinemo.mq.server.client.common.entity.Query;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by zhangyan on 15/11/2018.
  */
-public class Query {
+public class BaseQuery implements Query {
     @Getter
     @Setter
     private boolean pageEnable = true;
@@ -64,6 +65,7 @@ public class Query {
         }
         return null;
     }
+
 
     public void setPageSize(int pageSize) {
         setPageSize(Long.valueOf(pageSize));

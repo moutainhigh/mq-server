@@ -9,7 +9,4 @@ public interface Query {
 
 	Long getPageSize();
 
-	Long getTotalItem();
-
-	void putTotalItem(Long totalItem);
 }
