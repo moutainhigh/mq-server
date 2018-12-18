@@ -5,6 +5,7 @@ import com.alibaba.rocketmq.client.producer.MessageQueueSelector;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
+import com.shinemo.jce.common.config.JceHolder;
 import com.shinemo.mq.server.client.common.entity.InternalEventBus;
 import com.shinemo.mq.server.client.common.result.Result;
 import com.shinemo.mq.server.client.common.utils.AssertUtil;
@@ -106,7 +107,8 @@ public class MqProviderServiceImpl implements MqProviderService{
             message.setTags(tags);
             message.setBody(body.getBytes("utf-8"));
             if(crossCluster){
-            	MqSendFacadeService sendFacadeService = MqContextUtil.getSendFacadeServiceByAppType(appType);
+            	MqSendFacadeService sendFacadeService = MqContextUtil.getSendFacadeServiceByAppType();
+                JceHolder.put(String.valueOf(appType));
             	Result<SendResult> ret = sendFacadeService.sendWithSelector(topic, tags, body, 
             			selector, selectorId);
             	if(ret.hasValue()) {

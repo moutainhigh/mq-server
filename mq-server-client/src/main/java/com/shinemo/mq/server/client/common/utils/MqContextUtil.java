@@ -55,9 +55,23 @@ public class MqContextUtil {
     }
 
 
-	public static final MqSendFacadeService getSendFacadeServiceByAppType(Integer appType) {
-		// TODO Auto-generated method stub
-		return null;
+	public static final MqSendFacadeService getSendFacadeServiceByAppType() {
+        MqSendFacadeService mqSendFacadeService = (MqSendFacadeService)map.get("mqSendFacadeService");
+        if(mqSendFacadeService == null){
+            synchronized(MqContextUtil.class){
+                AaceConsumerBean consumerBean = new AaceConsumerBean();
+                consumerBean.setInterfaceClazz(MqSendFacadeService.class);
+                consumerBean.setProxy("aaceproxy");
+                consumerBean.setAceType(AceType.HTTP.getName());
+                map.put("mqSendFacadeService",consumerBean);
+                try {
+                    mqSendFacadeService = (MqSendFacadeService) consumerBean.getObject();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return mqSendFacadeService;
 	}
 
 
