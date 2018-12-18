@@ -23,7 +23,7 @@ public class MqDbEventListener {
     public void onEvent(MqDbEvent event) {
         log.info("[mqDbEvent] :{}", event);
         MqMessageFacadeService mqMessageFacadeService = event.getMqMessageFacadeService();
-        // 插入异常的放入缓存队列重试
+        // TODO 插入异常的放入缓存队列重试
         //插入的时候先查询已经存在不插入
     	if(event.getMqFrom() != null) {
             mqMessageFacadeService.insertMqFrom(event.getMqFrom());

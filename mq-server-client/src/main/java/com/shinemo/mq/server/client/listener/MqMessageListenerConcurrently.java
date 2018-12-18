@@ -17,6 +17,7 @@ import com.shinemo.mq.server.client.mq.service.MqMessageConsumerService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.time.DateUtils;
 
 
 @Slf4j
@@ -51,10 +52,6 @@ public class MqMessageListenerConcurrently implements MessageListenerConcurrentl
 	private boolean checkExpire = false;
 
 	/**
-	 * 一天的毫秒数
-	 */
-	private final static long DAYMILILLS = 24*60*60*1000;
-	/**
 	 * 是否需要http调用数据库
 	 */
 	private boolean isNeedHttp;
@@ -64,7 +61,7 @@ public class MqMessageListenerConcurrently implements MessageListenerConcurrentl
 		log.info(Thread.currentThread().getName() + " Receive New Messages: " + msgs.size());
 		for(MessageExt msg:msgs){
 			if(checkExpire) {
-				long exprieMills = DAYMILILLS * expireTimesDays;
+				long exprieMills = DateUtils.MILLIS_PER_DAY * expireTimesDays;
 				long now = System.currentTimeMillis();
 				if(now - msg.getBornTimestamp() > exprieMills) {
 					log.error("[mqExpire] message:{}",msg);
