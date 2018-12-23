@@ -60,15 +60,10 @@ spring:
 shinemo:
   application:
     domain: "http://app.e.uban360.net"
-    id: "32694445"
-    sms-template-id:
-      overdraft: 125
   jce:
     site-domain:
-      yue-card: "http://112.16.91.49:60009"
+      yue-card: "http://10.0.14.11:60009"
     center-host: "10.0.10.62:16999"
     trace: true
     sample: 100
-    provider-port: 13011
-    provider-proxy: "mq-server"
       
