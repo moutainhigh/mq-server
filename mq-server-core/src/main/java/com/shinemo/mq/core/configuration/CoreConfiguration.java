@@ -32,8 +32,8 @@ public class CoreConfiguration {
      * @date 2018-08-15
      **/
     @Bean(initMethod = "init")
-    public ProviderConfig providerConfig(@Value("${shinemo.jce.provider.port}") Integer port,
-                                         @Value("${shinemo.jce.provider.proxy}") String proxy) {
+    public ProviderConfig providerConfig(@Value("${shinemo.jce.provider-port}") Integer port,
+                                         @Value("${shinemo.jce.provider-proxy}") String proxy) {
         ProviderConfig config = new ProviderConfig();
         config.setPort(port);
         config.setProxy(proxy);

@@ -19,10 +19,9 @@ spring.logback:
 # *** datasource配置 ***
 spring:
   datasource:
-#    url: "jdbc:mysql://127.0.0.1:3306/test?autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=10&amp;characterEncoding=UTF8&amp;allowMultiQueries=true"
-    url: "jdbc:log4jdbc:mysql://127.0.0.1:3306/test?autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=10&amp;characterEncoding=UTF8&amp;allowMultiQueries=true"
+    url: "jdbc:mysql://127.0.0.1:3306/test?autoReconnect=true&amp;failOverReadOnly=false&amp;maxReconnects=10&amp;characterEncoding=UTF8&amp;allowMultiQueries=true"
     username: "root"
-    password: "tiger"
+    password: "shinemo123"
   redis:
     # Redis数据库索引（默认为0）
     # database: 0
@@ -55,3 +54,21 @@ spring:
 #        - "org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration"
 #        - "org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration"
 #        - "org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration"
+
+
+
+shinemo:
+  application:
+    domain: "http://app.e.uban360.net"
+    id: "32694445"
+    sms-template-id:
+      overdraft: 125
+  jce:
+    site-domain:
+      yue-card: "http://112.16.91.49:60009"
+    center-host: "10.0.10.62:16999"
+    trace: true
+    sample: 100
+    provider-port: 13011
+    provider-proxy: "mq-server"
+      
