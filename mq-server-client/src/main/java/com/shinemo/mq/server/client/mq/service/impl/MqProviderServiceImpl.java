@@ -114,7 +114,7 @@ public class MqProviderServiceImpl implements MqProviderService{
                 sendResult= sendFacadeService.sendWithSelector(topic, tags, body, 
             			selector, selectorId,bizName,producerGroup);
             }else{//直接走本地
-                if(selector==null){
+                if(selector == null){
                     sendResult = producer.send(message);
                 }else{
                     sendResult = producer.send(message,selector,selectorId);
