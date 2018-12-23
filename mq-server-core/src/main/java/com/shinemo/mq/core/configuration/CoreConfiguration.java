@@ -5,6 +5,9 @@ import com.shinemo.jce.common.config.CenterConfig;
 import com.shinemo.jce.common.config.ConsumerConfig;
 import com.shinemo.jce.common.config.ProviderConfig;
 import com.shinemo.mq.server.client.common.entity.InternalEventBus;
+
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -55,7 +58,7 @@ public class CoreConfiguration {
     @Bean(initMethod = "init")
     public ConsumerConfig consumerConfig(@Value("${shinemo.jce.consumer.url}") String url) {
         ConsumerConfig config = new ConsumerConfig();
-        config.setUrl(url);
+        Map<String, String> urlMap;
         return config;
     }
     /**

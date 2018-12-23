@@ -69,5 +69,4 @@ log4jdbc:
 shinemo:
   application:
     site-id:
-      cai-yun: 1
       yue-card: 5
