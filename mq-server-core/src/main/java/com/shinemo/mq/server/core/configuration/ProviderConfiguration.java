@@ -1,4 +1,4 @@
-package com.shinemo.mq.core.configuration;
+package com.shinemo.mq.server.core.configuration;
 
 
 import com.shinemo.jce.spring.AaceProviderBean;

@@ -1,4 +1,4 @@
-package com.shinemo.mq.core.configuration;
+package com.shinemo.mq.server.core.configuration;
 
 
 import com.google.common.collect.Maps;
@@ -27,8 +27,8 @@ import org.springframework.context.annotation.DependsOn;
  */
 @Configuration
 @ComponentScan(basePackages = {
-        "com.shinemo.mq.core",
-        "com.shinemo.mq.dal"
+        "com.shinemo.mq.server.core",
+        "com.shinemo.mq.server.dal"
 })
 public class CoreConfiguration {
 

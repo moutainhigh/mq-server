@@ -1,5 +1,6 @@
 package com.shinemo.mq.server.web.application;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
@@ -14,8 +15,9 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  */
 @SpringBootApplication(scanBasePackages = {
         "com.shinemo.mq.server.web",
-        "com.shinemo.mq.core"
+        "com.shinemo.mq.server.core",
 })
+@MapperScan(basePackages = {"com.shinemo.mq.server.dal.mapper"})
 public class Application extends SpringBootServletInitializer {
 
     private static final Class<Application> application = Application.class;

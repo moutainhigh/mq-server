@@ -1,4 +1,4 @@
-package com.shinemo.mq.dal.mapper;
+package com.shinemo.mq.server.dal.mapper;
 
 
 

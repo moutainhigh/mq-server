@@ -1,4 +1,4 @@
-package com.shinemo.mq.dal.mapper;
+package com.shinemo.mq.server.dal.mapper;
 
 
 import com.shinemo.mq.server.client.message.domain.MqFrom;

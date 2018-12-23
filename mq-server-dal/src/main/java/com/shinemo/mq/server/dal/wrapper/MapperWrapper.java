@@ -1,9 +1,8 @@
-package com.shinemo.mq.dal.wrapper;
+package com.shinemo.mq.server.dal.wrapper;
 
 
 
 
-import com.shinemo.mq.dal.mapper.BaseMapper;
 import com.shinemo.mq.server.client.common.entity.BaseDO;
 import com.shinemo.mq.server.client.common.entity.BaseQuery;
 import com.shinemo.mq.server.client.common.error.CommonError;
@@ -13,7 +12,7 @@ import com.shinemo.mq.server.client.common.exception.ParamterInvalidException;
 import com.shinemo.mq.server.client.common.list.ListWrapper;
 import com.shinemo.mq.server.client.common.result.Result;
 import com.shinemo.mq.server.client.common.result.ResultFactory;
-
+import com.shinemo.mq.server.dal.mapper.BaseMapper;
 
 import java.util.Collections;
 import java.util.List;

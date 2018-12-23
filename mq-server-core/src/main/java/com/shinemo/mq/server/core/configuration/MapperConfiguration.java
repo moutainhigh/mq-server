@@ -1,4 +1,4 @@
-package com.shinemo.mq.core.configuration;
+package com.shinemo.mq.server.core.configuration;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

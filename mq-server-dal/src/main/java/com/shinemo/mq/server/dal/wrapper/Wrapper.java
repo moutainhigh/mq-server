@@ -1,4 +1,4 @@
-package com.shinemo.mq.dal.wrapper;
+package com.shinemo.mq.server.dal.wrapper;
 
 
 import com.shinemo.mq.server.client.common.entity.BaseDO;
@@ -6,7 +6,7 @@ import com.shinemo.mq.server.client.common.entity.BaseQuery;
 import com.shinemo.mq.server.client.common.error.ErrorWrapper;
 import com.shinemo.mq.server.client.common.list.ListWrapper;
 import com.shinemo.mq.server.client.common.result.Result;
-import com.shinemo.mq.dal.mapper.BaseMapper;
+import com.shinemo.mq.server.dal.mapper.BaseMapper;
 
 /**
  * Created by harold on 03/08/2017.
