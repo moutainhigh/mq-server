@@ -63,11 +63,13 @@ public class MqProviderServiceImpl implements MqProviderService{
      */
     private boolean suppurtCrossCluster = false;
     /**
+     * 是否插入数据库
+     */
+    private boolean isInsertDB = true;
+    /**
      * 是否数据库需要http调用
      */
     private boolean isNeedHttp = false;
-
-
     @Override
     public void init(){
 
@@ -123,17 +125,21 @@ public class MqProviderServiceImpl implements MqProviderService{
             }
             if(sendResult == null || sendResult.getSendStatus() != SendStatus.SEND_OK){
                 log.error("send fail:"+sendResult+","+loggerString);
-                InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
-                        InternalEventBus.class);
-                eventBus.post(initDbEvent(message));
+                if(isInsertDB) {
+                	InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
+                            InternalEventBus.class);
+                    eventBus.post(initDbEvent(message));
+                }
             }else{
                 log.debug("send msg success,messageId="+sendResult.getMsgId()+","+loggerString);
             }
         }catch(Exception e){
             log.info("send exception:"+sendResult+","+loggerString,e);
-            InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
-                    InternalEventBus.class);
-            eventBus.post(initDbEvent(topic,tags,body));
+            if(isInsertDB) {
+            	InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
+                        InternalEventBus.class);
+                eventBus.post(initDbEvent(topic,tags,body));
+            }
         }
         return sendResult;
     }
@@ -146,7 +152,7 @@ public class MqProviderServiceImpl implements MqProviderService{
 		mqFrom.setMqFromStatus(MqFromStatusEnum.WAIT_SEND);
 		mqFrom.setTags(tags);
 		mqFrom.setTopic(topic);
-    	dbEvnet.setMqMessageFacadeService(MqContextUtil.getMessageFacadeService(false));
+    	dbEvnet.setMqMessageFacadeService(MqContextUtil.getMessageFacadeService(isNeedHttp));
     	dbEvnet.setMqFrom(mqFrom);
         return dbEvnet;
     }

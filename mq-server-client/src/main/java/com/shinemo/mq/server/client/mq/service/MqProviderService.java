@@ -1,6 +1,5 @@
 package com.shinemo.mq.server.client.mq.service;
 
-import com.alibaba.rocketmq.client.producer.MQProducer;
 import com.alibaba.rocketmq.client.producer.MessageQueueSelector;
 import com.alibaba.rocketmq.client.producer.SendResult;
 
