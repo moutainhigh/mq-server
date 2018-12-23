@@ -17,8 +17,6 @@ import javax.servlet.Filter;
  * Created by zhangyan on 15/11/2018.
  */
 @Configuration
-@MapperScan(basePackages = {"com.shinemo.mq-server.dal.user.mapper"})
-@ImportResource(locations = {"classpath*:mq-server-core.xml"})
 public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
     /**
