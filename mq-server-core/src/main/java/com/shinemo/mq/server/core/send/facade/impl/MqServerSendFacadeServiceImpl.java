@@ -26,6 +26,7 @@ public class MqServerSendFacadeServiceImpl implements MqServerSendFacadeService{
 	@Override
 	public void sendWithSelector(String topic, String tags, String body, MessageQueueSelector selector,
 			Object selectorId) {
+		log.info("");
 		String bizName = "";//TODO 取proxyName
 		String producerGroup = "";//TODO 取proxyName
 		MqProviderService mqProviderService = initMqProviderService(bizName,producerGroup);

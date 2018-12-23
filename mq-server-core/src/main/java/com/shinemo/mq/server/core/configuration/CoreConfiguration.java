@@ -7,7 +7,7 @@ import com.shinemo.jce.common.config.CenterConfig;
 import com.shinemo.jce.common.config.ConsumerConfig;
 import com.shinemo.jce.common.config.ProviderConfig;
 import com.shinemo.mq.server.client.common.entity.InternalEventBus;
-import com.shinemo.mq.server.client.message.facade.MqServerFacadeService;
+
 
 import java.util.Map;
 import java.util.Set;
@@ -84,8 +84,7 @@ public class CoreConfiguration {
      **/
     @Bean(initMethod = "init")
     @DependsOn("appTypeAceProxyMap")
-    public ConsumerConfig consumerConfig(@Value("${shinemo.jce.consumer.url}") String url,
-    					@Qualifier("appTypeAceProxyMap") Map<String,String> appTypeAceProxyMap) {
+    public ConsumerConfig consumerConfig(@Qualifier("appTypeAceProxyMap") Map<String,String> appTypeAceProxyMap) {
         ConsumerConfig config = new ConsumerConfig();
         config.setUrlMap(appTypeAceProxyMap);
         return config;
@@ -100,7 +99,7 @@ public class CoreConfiguration {
      * @date 2018-08-15
      **/
     @Bean(initMethod = "init")
-    public CenterConfig centerConfig(@Value("${shinemo.jce.center.host}") String host,
+    public CenterConfig centerConfig(@Value("${shinemo.jce.center-host}") String host,
                                      @Value("${application.name}") String name) {
         CenterConfig config = new CenterConfig();
         config.setIpAndPort(host);
