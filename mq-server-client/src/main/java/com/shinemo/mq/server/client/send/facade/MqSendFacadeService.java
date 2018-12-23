@@ -7,7 +7,6 @@ import com.shinemo.mq.server.client.common.result.Result;
 public interface MqSendFacadeService {
 	
 	/**
-	 * TODO 写在aaceProxy
 	 * @param topic
 	 * @param tags
 	 * @param body
