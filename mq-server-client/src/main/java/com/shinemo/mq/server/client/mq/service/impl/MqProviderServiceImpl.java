@@ -112,7 +112,7 @@ public class MqProviderServiceImpl implements MqProviderService{
             	MqSendFacadeService sendFacadeService = MqContextUtil.getSendFacadeServiceByAppType();
                 JceHolder.put(String.valueOf(appType));
             	Result<SendResult> ret = sendFacadeService.sendWithSelector(topic, tags, body, 
-            			selector, selectorId);
+            			selector, selectorId,bizName,producerGroup);
             	if(ret.hasValue()) {
             		sendResult = ret.getData();
             	}
