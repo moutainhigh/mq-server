@@ -12,6 +12,9 @@ import com.shinemo.mq.server.client.message.domain.MqToStatusEnum;
 import com.shinemo.mq.server.client.message.facade.MqMessageFacadeService;
 import com.shinemo.mq.server.client.send.facade.MqSendFacadeService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MqContextUtil {
 
 
@@ -27,7 +30,7 @@ public class MqContextUtil {
             try {
                 t = classBean.newInstance();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("[getBeanAndGenerateIfNotExist] error",e);
             }
         }
         return t;
@@ -47,7 +50,7 @@ public class MqContextUtil {
                 try {
                     mqMessageFacadeService = (MqMessageFacadeService) consumerBean.getObject();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                	log.error("[getMessageFacadeService] error",e);
                 }
             }
         }
@@ -61,13 +64,13 @@ public class MqContextUtil {
             synchronized(MqContextUtil.class){
                 AaceConsumerBean consumerBean = new AaceConsumerBean();
                 consumerBean.setInterfaceClazz(MqSendFacadeService.class);
-                consumerBean.setProxy("aaceproxy");
+                consumerBean.setProxy("MyAceProxy");
                 consumerBean.setAceType(AceType.HTTP.getName());
                 map.put("mqSendFacadeService",consumerBean);
                 try {
                     mqSendFacadeService = (MqSendFacadeService) consumerBean.getObject();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                	log.error("[getSendFacadeServiceByAppType] error",e);
                 }
             }
         }
