@@ -27,4 +27,6 @@ public class MqFrom extends BaseDO {
 	private MqFromStatusEnum mqFromStatus;
 	private Integer errorTimes;
 	
+	private Integer toAppType;
+	
 }

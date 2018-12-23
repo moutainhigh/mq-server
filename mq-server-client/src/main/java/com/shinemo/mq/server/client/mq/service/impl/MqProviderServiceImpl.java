@@ -125,7 +125,7 @@ public class MqProviderServiceImpl implements MqProviderService{
                 if(isInsertDB) {
                 	InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
                             InternalEventBus.class);
-                    eventBus.post(initDbEvent(message));
+                    eventBus.post(initDbEvent(message,appType));
                 }
             }else{
                 log.debug("send msg success,messageId="+sendResult.getMsgId()+","+loggerString);
@@ -135,13 +135,13 @@ public class MqProviderServiceImpl implements MqProviderService{
             if(isInsertDB) {
             	InternalEventBus eventBus = MqContextUtil.getBeanAndGenerateIfNotExist("eventBus",
                         InternalEventBus.class);
-                eventBus.post(initDbEvent(topic,tags,body));
+                eventBus.post(initDbEvent(topic,tags,body,appType));
             }
         }
         return sendResult;
     }
 
-    private MqDbEvent initDbEvent(String topic, String tags, String body) {
+    private MqDbEvent initDbEvent(String topic, String tags, String body,Integer toAppType) {
     	MqDbEvent dbEvnet = new MqDbEvent();
     	MqFrom mqFrom = new MqFrom();
     	mqFrom.setBizName(bizName);
@@ -149,14 +149,15 @@ public class MqProviderServiceImpl implements MqProviderService{
 		mqFrom.setMqFromStatus(MqFromStatusEnum.WAIT_SEND);
 		mqFrom.setTags(tags);
 		mqFrom.setTopic(topic);
+		mqFrom.setToAppType(toAppType);
     	dbEvnet.setMqMessageFacadeService(MqContextUtil.getMessageFacadeService(isNeedHttp));
     	dbEvnet.setMqFrom(mqFrom);
         return dbEvnet;
     }
 
-    private MqDbEvent initDbEvent(Message message) {
+    private MqDbEvent initDbEvent(Message message,Integer toAppType) {
     	String body =  new String (message.getBody());
-    	return initDbEvent(message.getTopic(),message.getTags(),body);
+    	return initDbEvent(message.getTopic(),message.getTags(),body,toAppType);
     }
 
     @Override

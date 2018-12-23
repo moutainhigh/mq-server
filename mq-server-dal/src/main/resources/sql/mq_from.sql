@@ -12,4 +12,4 @@ CREATE TABLE `mq_from` (
   KEY `idx_bizname_status` (`biz_name`,`mq_from_status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-alter table mq_from add to_app_type int(4) comment '发送到哪个集群';
+alter table mq_from add to_app_type int(4) default '1' comment '发送到哪个集群';
