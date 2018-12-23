@@ -111,11 +111,8 @@ public class MqProviderServiceImpl implements MqProviderService{
             if(crossCluster){
             	MqSendFacadeService sendFacadeService = MqContextUtil.getSendFacadeServiceByAppType();
                 JceHolder.put(String.valueOf(appType));
-            	Result<SendResult> ret = sendFacadeService.sendWithSelector(topic, tags, body, 
+                sendResult= sendFacadeService.sendWithSelector(topic, tags, body, 
             			selector, selectorId,bizName,producerGroup);
-            	if(ret.hasValue()) {
-            		sendResult = ret.getData();
-            	}
             }else{//直接走本地
                 if(selector==null){
                     sendResult = producer.send(message);

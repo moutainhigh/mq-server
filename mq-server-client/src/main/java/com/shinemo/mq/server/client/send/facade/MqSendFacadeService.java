@@ -15,7 +15,7 @@ public interface MqSendFacadeService {
 	 * @param selectorId
 	 * @return
 	 */
-	Result<SendResult> sendWithSelector(String topic, String tags, String body, MessageQueueSelector 
+	SendResult sendWithSelector(String topic, String tags, String body, MessageQueueSelector 
 			selector, Object selectorId,String bizName,String producerGroup);
 	
 
