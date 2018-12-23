@@ -173,4 +173,18 @@ public class MqProviderServiceImpl implements MqProviderService{
                     ""+sendMsgTimeout+","+retryTimesWhenSendFailed);
         }
     }
+
+
+
+	@Override
+	public SendResult send(String topic, String tags, String body, MessageQueueSelector selector, Object selectorId) {
+		return send(topic,tags,body,selector,selectorId,false,null);
+	}
+
+
+
+	@Override
+	public SendResult send(String topic, String tags, String body, boolean crossCluster, Integer appType) {
+		return send(topic,tags,body,null,null,crossCluster,appType);
+	}
 }

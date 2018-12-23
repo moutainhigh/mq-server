@@ -33,4 +33,24 @@ public interface MqProviderService {
      * @return
      */
     SendResult send(String topic, String tags, String body);
+    /**
+     * 发送消息
+     * @param topic
+     * @param tags
+     * @param body
+     * @param selector
+     * @param selectorId
+     * @return
+     */
+    SendResult send(String topic, String tags, String body,MessageQueueSelector selector, Object selectorId);
+    /**
+     * 发送消息
+     * @param topic
+     * @param tags
+     * @param body
+     * @param crossCluster
+     * @param appType
+     * @return
+     */
+    SendResult send(String topic, String tags, String body,boolean crossCluster,Integer appType);
 }
