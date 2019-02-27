@@ -29,7 +29,7 @@ config参数解释
 |bizName|string|是|业务名称 |
 |producerGroupName|string|是|生产组名称|
 |toAppType|int|是|发往哪个集群
-|MessageQueueSelector|MessageQueueSelector|否|消息选择器|
+|MessageQueueSelector|1|否|消息选择器|
 |selectorId|int|否|消息选择id|
 |...|...|否|后续迭代的相关参数|
 
